@@ -12,7 +12,7 @@ void op_push(stack_t **sp)
 	const char *nstr = op_env.argv[1];
 
 	if (!(nstr && isinteger(nstr)))
-		pfailure("L%u: usage: push integer\n", op_env.lineno;
+		pfailure("L%u: usage: push integer\n", op_env.lineno);
 				new = malloc(sizeof(*new));
 				if (!new)
 				pfailure("Error: malloc failed\n");
