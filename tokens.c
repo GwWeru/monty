@@ -20,11 +20,10 @@ size_t count_tokens(const char *str)
 			++str;
 		if (!*str)
 			break;
-		do 
-		{
+		do {
 			++str;
-		} 
-		while (*str && !isspace(*str));
+		} while
+			(*str && !isspace(*str));
 		++count;
 	}
 	return (count);
