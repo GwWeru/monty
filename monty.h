@@ -1,12 +1,34 @@
-#ifndef MONTY_H
+#ifndef MONTY_HEADERS
 
-#define MONTY_H
+#define MONTY_HEADERS
 
 
 
 #include <stdio.h>
 
+#include <fcntl.h>
+
 #include <stdlib.h>
+
+#include <unistd.h>
+
+#include <string.h>
+
+#include <ctype.h>
+
+
+
+#endif /* MONTY_HEADERS */
+
+
+
+#ifndef MONTY_STRUCT
+
+#define MONTY_STRUCT
+
+
+
+/* STRUCT #1 */
 
 
 
@@ -33,14 +55,14 @@ typedef struct stack_s
 
 
 
-typedef void (*instruction_fn)(stack_t **);
+/* STRUCT #2 */
 
 
 
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
- * @fn: function to handle the opcode
+ * @f: function to handle the opcode
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO Holberton project
  */
@@ -51,122 +73,96 @@ typedef struct instruction_s
 
 		char *opcode;
 
-			instruction_fn fn;
+			void (*f)(stack_t **stack, unsigned int line_number);
 
 } instruction_t;
 
 
 
-/**
- * enum stack_mode_n - stack mode enumeration
- * @LIFO: operate as a stack
- * @FIFO: operate as a queue
- */
+#endif /* MONTY_STRUCT */
 
-typedef enum stack_mode_n
 
-{
 
-		LIFO = 0,
+#ifndef VALIDATOR
 
-			FIFO = 1
-
-} stack_mode_t;
+#define VALIDATOR
 
 
 
 /**
- * struct op_env_s - operation environment
- * @sp: top of the stack
- * @argv: argument vector
- * @line: line buffer
- * @linesz: line buffer size
- * @lineno: line number
- * @mode: stack operation mode
+ * struct validator - return value of opcode and if list is stack or queue
+ * @opcode: return value of opcode
+ * @queue_value: 1 if list is a queue, 0 if list is a stack
  */
 
-typedef struct op_env_s
+
+
+typedef struct validator
 
 {
 
-		stack_t *sp;
+		int opcode;
 
-			char **argv;
+			int queue_value;
 
-				char *line;
-
-					size_t linesz;
-
-						size_t lineno;
-
-							stack_mode_t mode;
-
-} op_env_t;
+} validator_t;
 
 
 
-extern op_env_t op_env;
+extern validator_t rq;
 
 
 
-instruction_fn get_instruction_fn(const char *opcode);
+#endif /* VALIDATOR */
 
 
 
-void op_add(stack_t **sp);
+#ifndef FUNCTIONS
 
-void op_div(stack_t **sp);
-
-void op_mod(stack_t **sp);
-
-void op_mul(stack_t **sp);
-
-void op_nop(stack_t **sp);
-
-void op_pall(stack_t **sp);
-
-void op_pchar(stack_t **sp);
-
-void op_pint(stack_t **sp);
-
-void op_pop(stack_t **sp);
-
-void op_pstr(stack_t **sp);
-
-void op_push(stack_t **sp);
-
-void op_queue(stack_t **sp);
-
-void op_rotl(stack_t **sp);
-
-void op_rotr(stack_t **sp);
-
-void op_stack(stack_t **sp);
-
-void op_sub(stack_t **sp);
-
-void op_swap(stack_t **sp);
+#define FUNCTIONS
 
 
 
-char **tokenize(char *str);
+char *find_co(char *line, stack_t **stack, unsigned int n_line);
 
-size_t count_tokens(const char *str);
+int isnumber(char *str);
+
+void add_node(stack_t **stack, int value);
+
+void add_node_end(stack_t **stack, int value);
+
+int check_opcode(char *command, stack_t **stack, size_t n_line);
+
+void kill_free(char *line, FILE *file, stack_t *stack);
+
+void kill_stack(stack_t *stack);
+
+void pall(stack_t **stack, unsigned int n_line);
+
+void pint(stack_t **stack, unsigned int n_line);
+
+void pop(stack_t **stack, unsigned int n_line);
+
+void swap(stack_t **stack, unsigned int n_line);
+
+void _div(stack_t **stack, unsigned int n_line);
+
+void add(stack_t **stack, unsigned int n_line);
+
+void sub(stack_t **stack, unsigned int n_line);
+
+void mul(stack_t **stack, unsigned int n_line);
+
+void mod(stack_t **stack, unsigned int n_line);
+
+void pchar(stack_t **stack, unsigned int n_line);
+
+void rotl(stack_t **stack, unsigned int n_line);
+
+void pstr(stack_t **stack, unsigned int n_line);
+
+void rotr(stack_t **stack, unsigned int n_line);
 
 
 
-void free_op_env(void);
-
-void free_stack(stack_t **sp);
-
-
-
-void pfailure(const char *fmt, ...);
-
-
-
-int isinteger(const char *str);
-
-
-
-#endif /* MONTY_H */
+#endif /* Functions */
